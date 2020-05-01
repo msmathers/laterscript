@@ -34,7 +34,11 @@ window.laterscript = {
       // Create new <script> element and attach all attributes
       const newScript = document.createElement('script')
       Array.from(el.attributes).forEach((attr) => {
-        newScript.setAttribute(attr.name, attr.value)
+        if (attr.name === 'nonce') {
+          newScript.nonce = el.nonce
+        } else {
+          newScript.setAttribute(attr.name, attr.value)
+        }
       })
       // Embed inline JS code into new script element
       if (!el.hasAttribute('src')) {
