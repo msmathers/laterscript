@@ -50,6 +50,10 @@ window.laterscript = {
       // Attach new <script> to DOM, remove <laterscript> element
       el.insertAdjacentElement('afterend', newScript)
       el.remove()
+      // If this tag has inline JS, resolve the promise since the 'load' event never fires
+      if (!el.hasAttribute('src')) {
+        resolve(newScript)
+      }
     })
   }
 }
@@ -57,9 +61,9 @@ window.laterscript = {
 /**
  * Set CSS style to hide <laterscript> tags
  */
-var css = 'laterscript { display: none; }'
-var head = document.head || document.getElementsByTagName('head')[0]
-var style = document.createElement('style')
+const css = 'laterscript { display: none; }'
+const head = document.head || document.getElementsByTagName('head')[0]
+const style = document.createElement('style')
 style.type = 'text/css'
 style.appendChild(document.createTextNode(css))
 head.appendChild(style)
